@@ -1,0 +1,37 @@
+import codecademylib
+import pandas as pd
+#Loading Data
+inventory = pd.read_csv("inventory.csv")
+first_ten = inventory.head(10)
+print(first_ten)
+
+#Saving Data to staten_island
+staten_island = first_ten
+print(staten_island)
+
+#Saving to product request
+product_request = staten_island['product_description']
+print(product_request)
+
+#type of seeds sold at Brooklyn
+seeds_request = (inventory.location == "Brooklyn") & (inventory.product_type == "seeds")
+print(seeds_request)
+
+#Adding a column to the inventory.
+inventory['in_stock'] = inventory.apply(lambda x: True if x['quantity'] > 0 else False, axis = 1)
+print(inventory.head())
+
+# How Valuable their Inventory is:
+inventory['total_value'] = inventory.apply(lambda x: x.price * x.quantity, axis = 1)
+print(inventory.head())
+
+#Description of the Marketting Catalog:
+combine_lambda = lambda row: \
+    '{} - {}'.format(row.product_type,
+                     row.product_description)
+# Complete Description:
+combine_lambda = lambda row: \
+    '{} - {}'.format(row.product_type,
+                     row.product_description)
+inventory['full_discription'] = inventory.apply(lambda x: (x.product_type, x.product_description), axis = 1)
+print(inventory.head())
